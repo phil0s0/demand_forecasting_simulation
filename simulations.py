@@ -100,15 +100,15 @@ def main(args):
     # simulate variance and draw sales from negative binomial distribution
     df = simulate_inv_r(df)
 
-    del df["LAMBDA"]
     del df["LOG_LAMBDA"]
     del df["ELASTICITY"]
+
+    # df.to_csv("../train_data.csv", index=False)
+    del df["LAMBDA"]
 
     df["SALES"].hist(log=True)
     plt.savefig("sales.pdf")
     plt.clf()
-
-    # df.to_csv("../train_data.csv", index=False)
 
     df_train = df.loc[df['DATE']<='2022-03-31']
     df_test = df.loc[df['DATE']>'2022-03-31']
