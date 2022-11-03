@@ -9,7 +9,7 @@ def get_install_requirements(path):
 def setup_package():
     setup(
         setup_requires=["setuptools_scm"],
-        name="simulations",
+        name="demand_forecasting_simulation",
         author="Felix Wick",
         install_requires=get_install_requirements("requirements.txt"),
         packages=find_packages(),
