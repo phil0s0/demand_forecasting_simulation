@@ -147,6 +147,7 @@ def simulate_events(
         ["Local_Holiday_0", "Local_Holiday_1"]
     ), "EVENT_TYPE"] = 2
     del df_events_factors["EVENT"]
+    df_events_factors = df_events_factors.groupby('DATE').max().reset_index()
     df = df.merge(df_events_factors, on=["DATE"], how="left")
 
     noise = np.random.normal(scale=0.1, size=len(df.loc[df["event_factor"].notna()]))
