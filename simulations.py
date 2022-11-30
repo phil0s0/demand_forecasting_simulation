@@ -104,7 +104,7 @@ def main(args):
     del df["ELASTICITY"]
 
     # df.to_csv("../train_data.csv", index=False)
-    # df.to_parquet("../train_data.gzip", compression='gzip')
+    # df.to_parquet("../train_data.parquet.gzip", compression='gzip')
     del df["LAMBDA"]
 
     df["SALES"].hist(log=True)
@@ -112,15 +112,16 @@ def main(args):
     plt.clf()
 
     df_train = df.loc[df['DATE']<='2022-03-31']
+    df_train.reset_index(inplace=True, drop=True)
     df_test = df.loc[df['DATE']>'2022-03-31']
-
+    df_test.reset_index(inplace=True, drop=True)
     # df_train.to_csv("train.csv", index=False)
-    df_train.to_parquet("train.gzip", compression='gzip')
+    df_train.to_parquet("train.parquet.gzip", compression='gzip')
     # df_test[["P_ID", "L_ID", "DATE", "SALES"]].to_csv("test_results.csv", index=False)
-    df_test[["P_ID", "L_ID", "DATE", "SALES"]].to_parquet("test_results.gzip", compression='gzip')
+    df_test[["P_ID", "L_ID", "DATE", "SALES"]].to_parquet("test_results.parquet.gzip", compression='gzip')
     del df_test["SALES"]
     # df_test.to_csv("test.csv", index=False)
-    df_test.to_parquet("test.gzip", compression='gzip')
+    df_test.to_parquet("test.parquet.gzip", compression='gzip')
 
     embed()
 
