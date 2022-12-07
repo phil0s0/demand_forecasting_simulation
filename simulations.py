@@ -14,6 +14,8 @@ from base_demand import \
     simulate_locations, \
     simulate_dates, \
     simulate_basic_demand
+from optional_demand import \
+    simulate_coupling_demand
 from seasonalities import \
     simulate_trend,\
     simulate_weekday_profile, \
@@ -69,6 +71,8 @@ def main(args):
     )
 
     df = simulate_basic_demand(df)
+
+    df = simulate_coupling_demand(df, n_couples=20, max_products=3)
 
     df = simulate_trend(df)
 
