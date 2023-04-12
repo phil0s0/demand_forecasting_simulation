@@ -14,8 +14,11 @@ from base_demand import \
     simulate_locations, \
     simulate_dates, \
     simulate_basic_demand
-from optional_demand import \
-    simulate_coupling_demand
+from optional_effects import \
+    simulate_coupled_demand, \
+    drop_zeros, \
+    add_anomalies, \
+    restrict_pl_ranges
 from seasonalities import \
     simulate_trend,\
     simulate_weekday_profile, \
@@ -70,9 +73,11 @@ def main(args):
         date_upto=date_upto
     )
 
+    df = restrict_pl_ranges(df)
+
     df = simulate_basic_demand(df)
 
-    df = simulate_coupling_demand(df, n_couples=20, max_products=3)
+    df = simulate_coupled_demand(df, n_couples=20, max_products=3)
 
     df = simulate_trend(df)
 
@@ -96,13 +101,14 @@ def main(args):
     df = simulate_price_model(df)
 
     # simulate non-assignment situations (e.g., out-of-stock)
-    # for unknown assignments set to zero sales instead of dropping
     df = df.sample(frac=0.95, random_state=1)
 
     df["LAMBDA"] = np.exp(df["LOG_LAMBDA"])
 
     # simulate variance and draw sales from negative binomial distribution
     df = simulate_inv_r(df)
+
+    df = add_anomalies(df, prob_huge=0.00001, prob_neg=0.0001)
 
     del df["LOG_LAMBDA"]
     del df["ELASTICITY"]
@@ -117,6 +123,8 @@ def main(args):
 
     df_train = df.loc[df['DATE']<='2022-03-31']
     df_train.reset_index(inplace=True, drop=True)
+    df_train = drop_zeros(df_train)
+
     df_test = df.loc[df['DATE']>'2022-03-31']
     df_test.reset_index(inplace=True, drop=True)
     # df_train.to_csv("train.csv", index=False)
