@@ -75,7 +75,7 @@ def simulate_coupled_demand(
 def drop_zeros(
         df: pd.DataFrame
 ) -> pd.DataFrame:
-    return df.loc[df['SALES'] > 0]
+    return df.loc[df['SALES'] != 0]
 
 
 def add_anomalies(
