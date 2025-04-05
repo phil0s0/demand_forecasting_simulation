@@ -90,7 +90,8 @@ def main(args):
 
     df = simulate_yearly_seasonality(df)
 
-    df["LOG_LAMBDA"].clip(upper=5.0, inplace=True)
+    df["LOG_LAMBDA"] = df["LOG_LAMBDA"].clip(upper=5.0)
+    
 
     df = simulate_events(df)
 
@@ -135,7 +136,7 @@ def main(args):
     # df_test.to_csv("test.csv", index=False)
     df_test.to_parquet("test.parquet.gzip", compression='gzip')
 
-    embed()
+    #embed()
 
 
 if __name__ == "__main__":

@@ -183,6 +183,6 @@ def simulate_basic_demand(
     for group_col in elasticity_group_cols:
         df["ELASTICITY"] = df.groupby(group_col, group_keys=False)["ELASTICITY"].apply(gaussian_noise, 0.3)
     df["ELASTICITY"] = np.exp(df["ELASTICITY"])
-    df["ELASTICITY"].clip(lower=0.0, upper=3.0, inplace=True)
+    df["ELASTICITY"] = df["ELASTICITY"].clip(lower=0.0, upper=3.0)
 
     return df

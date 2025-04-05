@@ -118,7 +118,8 @@ def simulate_promotions(
         df_canni.reset_index(drop=True, inplace=True)
         df_canni["cannibalization"] = 1
         df = df.merge(df_canni, on=["DATE", "PG_ID_3"], how="left")
-        df["cannibalization"].fillna(0, inplace=True)
+        #df["cannibalization"].fillna(0, inplace=True)
+        df["cannibalization"] = df["cannibalization"].fillna(0)
         df.loc[
             (df["cannibalization"] == 1) &
             (df["P_ID"] != canni_prod),

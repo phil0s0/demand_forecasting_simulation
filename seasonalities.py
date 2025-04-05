@@ -228,7 +228,8 @@ def simulate_school_holidays(
     school_holidays.reset_index(level=0, inplace=True)
     school_holidays.rename(columns={"index": "DATE"}, inplace=True)
     df = df.merge(school_holidays, on="DATE", how="left")
-    df["SCHOOL_HOLIDAY"].fillna(0, inplace=True)
+    #df["SCHOOL_HOLIDAY"].fillna(0, inplace=True)
+    df["SCHOOL_HOLIDAY"] = df["SCHOOL_HOLIDAY"].fillna(0)
 
     weekday_profile = np.log([1.5, 1.4, 1.3, 1.0, 0.8, 0.7, 0.7])
     date_dict = dict(zip(range(len(weekday_profile)), weekday_profile))

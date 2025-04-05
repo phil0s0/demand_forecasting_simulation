@@ -35,7 +35,7 @@ def simulate_inv_r(
     df.loc[df["DATE"].dt.dayofweek == 5, "inv_r"] -= 0.03
     df.loc[df["DATE"].dt.dayofweek == 6, "inv_r"] += 0.02
 
-    df["inv_r"].clip(lower=0.0, upper=1.0, inplace=True)
+    df['inv_r'] = df["inv_r"].clip(lower=0.0, upper=1.0)
 
     df["variance"] = df["LAMBDA"] + df["LAMBDA"] * df["LAMBDA"] * df["inv_r"]
     df['n'], df['p'] = transform_nbinom(df["LAMBDA"], df["variance"])

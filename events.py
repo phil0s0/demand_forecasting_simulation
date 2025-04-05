@@ -152,7 +152,7 @@ def simulate_events(
 
     noise = np.random.normal(scale=0.1, size=len(df.loc[df["event_factor"].notna()]))
     df.loc[df["event_factor"].notna(), "event_factor"] += noise
-    df["event_factor"].fillna(0, inplace=True)
+    df["event_factor"] = df["event_factor"].fillna(0)
 
     df["LOG_LAMBDA"] = (
         df["LOG_LAMBDA"]
